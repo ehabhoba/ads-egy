@@ -9,6 +9,7 @@ import HomePage from './pages/HomePage';
 import DashboardPage from './pages/DashboardPage';
 import SocialPostGeneratorPage from './pages/SocialPostGeneratorPage';
 import SeoArticleGeneratorPage from './pages/SeoArticleGeneratorPage';
+import SmartSearchPage from './pages/SmartSearchPage'; // Import the new page
 
 // --- MAIN APP COMPONENT (ROUTER) ---
 export default function App() {
@@ -53,8 +54,11 @@ export default function App() {
         if (service?.slug === 'seo-article-generator') {
             return <SeoArticleGeneratorPage service={service} lang={lang} />;
         }
-        // NOTE: In the future, other tool pages would be routed here.
-        // For now, they will fall through to the dashboard or homepage.
+        if (service?.slug === 'smart-ai-search') { // Add route for Smart Search
+            return <SmartSearchPage service={service} lang={lang} />;
+        }
+        // Fallback for other tool routes to the dashboard
+        return <DashboardPage lang={lang} translations={t} />;
     }
       
     // Route for the main app dashboard
@@ -68,7 +72,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-black via-slate-900 to-black text-white font-[sans-serif] relative overflow-x-hidden">
-      <Header navItems={t.nav} lang={lang} toggleLang={toggleLang} contactLabel={t.contactLabel} />
+      <Header navItems={t.nav} lang={lang} toggleLang={toggleLang} translations={t} />
       <main className="flex-grow">
         {renderPage()}
       </main>

@@ -13,7 +13,9 @@ export const translations = {
       { label: "الأسعار", href: "#/pricing" },
       { label: "تواصل معنا", href: "#/contact" },
     ],
-    dashboardTitle: "لوحة تحكم الأدوات",
+    login: "تسجيل الدخول",
+    signUp: "إنشاء حساب",
+    dashboardTitle: "لوحة التحكم",
     dashboardSubtitle: "مرحبًا بك في مركز أدوات التسويق الرقمي. اختر أداة للبدء.",
     socialPostGenerator: {
       title: "مولد منشورات السوشيال ميديا",
@@ -45,6 +47,17 @@ export const translations = {
       copyButton: "نسخ المقال",
       copiedButton: "تم النسخ!",
       error: "عذرًا, حدث خطأ. يرجى المحاولة مرة أخرى.",
+    },
+    smartSearch: {
+      title: "البحث الذكي (AI)",
+      subtitle: "احصل على إجابات دقيقة ومحدثة من الإنترنت مدعومة بالمصادر.",
+      queryLabel: "ما الذي تبحث عنه؟",
+      queryPlaceholder: "مثال: ما هي آخر تحديثات خوارزميات جوجل؟",
+      generateButton: "ابحث الآن",
+      generatingButton: "جاري البحث...",
+      resultTitle: "نتائج البحث",
+      sourcesTitle: "المصادر",
+      error: "عذرًا, حدث خطأ أثناء البحث. يرجى المحاولة مرة أخرى.",
     },
     contactLabel: "تواصل",
     heroTitle: "منصة إعلانية متكاملة مدعومة بالذكاء الاصطناعي",
@@ -316,6 +329,15 @@ export const translations = {
     contactFormSend: "إرسال",
     footerDesc: "منصة إعلانات بالذكاء الاصطناعي. أنشئ، انشر، وتوسع بسرعة وكفاءة.",
     footerCompany: "الشركة",
+    footerResources: "مصادر",
+    blog: "المدونة",
+    faq: "الأسئلة الشائعة",
+    footerLegal: "قانوني",
+    privacyPolicy: "سياسة الخصوصية",
+    termsOfService: "شروط الخدمة",
+    newsletter: "النشرة الإخبارية",
+    newsletterDesc: "ابق على اطلاع بآخر التحديثات والعروض.",
+    subscribe: "اشترك",
     footerTools: "الأدوات",
     footerFollow: "تابعنا",
   },
@@ -324,9 +346,11 @@ export const translations = {
       { label: "Home", href: "#/" },
       { label: "Services", href: "#/services" },
       { label: "Pricing", href: "#/pricing" },
-      { label: "Contact Us", href: "#/contact" },
+      { label: "Contact", href: "#/contact" },
     ],
-    dashboardTitle: "Tools Dashboard",
+    login: "Login",
+    signUp: "Sign Up",
+    dashboardTitle: "Dashboard",
     dashboardSubtitle: "Welcome to your digital marketing toolkit. Select a tool to get started.",
     socialPostGenerator: {
       title: "Social Media Post Generator",
@@ -359,6 +383,17 @@ export const translations = {
       copiedButton: "Copied!",
       error: "Sorry, an error occurred. Please try again.",
     },
+    smartSearch: {
+      title: "Smart AI Search",
+      subtitle: "Get accurate, up-to-date answers from the web, backed by sources.",
+      queryLabel: "What are you looking for?",
+      queryPlaceholder: "e.g., What are the latest updates to Google's algorithms?",
+      generateButton: "Search Now",
+      generatingButton: "Searching...",
+      resultTitle: "Search Results",
+      sourcesTitle: "Sources",
+      error: "Sorry, an error occurred while searching. Please try again.",
+    },
     contactLabel: "Contact",
     heroTitle: "Fully Integrated AI-Powered Advertising Platform",
     heroSubtitle: "Over 50 services in one place to simplify digital marketing, content management, SEO, and brand expansion. Smart, effective solutions for the Egyptian and Arab market.",
@@ -371,6 +406,13 @@ export const translations = {
       { id: 'integrated', title: 'Additional Integrated Systems' },
     ],
     coreServices: [
+        { 
+          icon: BrainCircuit, title: "Smart AI Search", slug: "smart-ai-search",
+           path: "#/app/tool/smart-ai-search",
+          desc: "Gathers live data from the internet to improve content accuracy and analysis.",
+          features: ["Live search on Google, YouTube, Twitter", "Collect real-time data for content creation", "Improve accuracy of analytics and reports", "Understand market trends and competitors"],
+          benefits: ["Create content based on up-to-date information", "Gain a competitive advantage", "Enhance marketing strategies", "Deeper understanding of the target audience"]
+        },
         { 
           icon: PlayCircle, title: "Video Display System", slug: "video-display-system",
           path: "#/app/tool/video-display-system",
@@ -437,6 +479,15 @@ export const translations = {
     contactFormSend: "Send",
     footerDesc: "AI advertising platform. Create, publish, and expand quickly and efficiently.",
     footerCompany: "Company",
+    footerResources: "Resources",
+    blog: "Blog",
+    faq: "FAQ",
+    footerLegal: "Legal",
+    privacyPolicy: "Privacy Policy",
+    termsOfService: "Terms of Service",
+    newsletter: "Newsletter",
+    newsletterDesc: "Stay updated with our latest features and offers.",
+    subscribe: "Subscribe",
     footerTools: "Tools",
     footerFollow: "Follow Us",
   }
@@ -444,14 +495,25 @@ export const translations = {
 
 export const getAllServices = (lang: 'ar' | 'en'): Service[] => {
     const t = translations[lang];
+    // Manually add other services for English if they exist in AR but not EN
+    const arCore = translations.ar.coreServices;
+    const enCore = t.coreServices;
+    const combinedCore = arCore.map(arService => {
+        const enService = enCore.find(s => s.slug === arService.slug);
+        return {
+            ...(lang === 'ar' ? arService : (enService || arService)),
+            title: lang === 'en' && enService ? enService.title : arService.title,
+            desc: lang === 'en' && enService ? enService.desc : arService.desc,
+        };
+    });
+
     return [
-        ...t.coreServices,
+        ...combinedCore,
         ...t.advancedServices,
         ...t.seoTools,
         ...t.integratedSystems,
     ].map(s => ({
       ...s,
-      // Ensure features and benefits are arrays, even for partially translated services
       features: s.features || [],
       benefits: s.benefits || [],
       path: s.path || `#/app/tool/${s.slug}`
