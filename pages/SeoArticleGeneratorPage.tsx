@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import type { Service } from '@/types';
-import { Button } from '@/components/ui/Button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import { Input } from '@/components/ui/Input';
-import { Textarea } from '@/components/ui/Textarea';
+import type { Service } from '../types';
+import { Button } from '../components/ui/Button';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card';
+import { Input } from '../components/ui/Input';
+import { Textarea } from '../components/ui/Textarea';
 import { ArrowLeft, Wand2, LoaderCircle, ClipboardCopy, Check } from 'lucide-react';
 import { GoogleGenAI } from "@google/genai";
-import { translations } from '@/data/translations';
+import { translations } from '../data/translations';
 
 // --- AI Client Initialization ---
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });

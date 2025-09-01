@@ -1,8 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import type { Service } from '@/types';
-import { Button } from '@/components/ui/Button';
-import { Card, CardContent } from '@/components/ui/Card';
+import type { Service } from '../types';
+import { Button } from '../components/ui/Button';
+import { Card, CardContent } from '../components/ui/Card';
 import { ArrowLeft, Check, Zap, Target } from 'lucide-react';
 
 interface ServiceDetailPageProps {

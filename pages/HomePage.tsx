@@ -6,11 +6,11 @@ import {
   Target, TrendingUp, Link, Repeat, LayoutGrid, Reply, Flag, MailPlus, UserCheck, Settings2, Replace, Lock, Send, BarChart, FileJson,
   Wand2, LoaderCircle, ClipboardCopy
 } from "lucide-react";
-import { Button } from "@/components/ui/Button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
-import { Input } from "@/components/ui/Input";
-import { Textarea } from "@/components/ui/Textarea";
-import type { Service, PricingPlan } from '@/types';
+import { Button } from "../components/ui/Button";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/Card";
+import { Input } from "../components/ui/Input";
+import { Textarea } from "../components/ui/Textarea";
+import type { Service, PricingPlan } from '../types';
 import { GoogleGenAI } from "@google/genai";
 
 // --- AI Client Initialization ---

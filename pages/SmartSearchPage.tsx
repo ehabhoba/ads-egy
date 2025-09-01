@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import type { Service } from '@/types';
-import { Button } from '@/components/ui/Button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import { Input } from '@/components/ui/Input';
+import type { Service } from '../types';
+import { Button } from '../components/ui/Button';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card';
+import { Input } from '../components/ui/Input';
 import { ArrowLeft, Search, LoaderCircle, ExternalLink, FileText } from 'lucide-react';
 import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
-import { translations } from '@/data/translations';
+import { translations } from '../data/translations';
 
 // --- AI Client Initialization ---
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });

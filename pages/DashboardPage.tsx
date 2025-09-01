@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import type { Service } from '@/types';
-import { getAllServices } from '@/data/translations';
+import type { Service } from '../types';
+import { getAllServices } from '../data/translations';
 
 interface DashboardPageProps {
   lang: 'ar' | 'en';

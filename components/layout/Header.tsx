@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/Button';
+import { Button } from '../ui/Button';
 import { Globe, LayoutGrid, Menu, X } from 'lucide-react';
-import type { NavItem } from '@/types';
+import type { NavItem } from '../../types';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface HeaderProps {
@@ -27,25 +27,27 @@ const Header: React.FC<HeaderProps> = ({ navItems, lang, toggleLang, translation
   const closeMenu = () => setIsMenuOpen(false);
 
   return (
-    <header className="sticky top-0 z-50 backdrop-blur bg-black/70 border-b border-slate-800 shadow-lg">
-      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+    <header className="sticky top-0 z-50 backdrop-blur bg-black/70 border-b border-slate-800 shadow-lg shadow-black/20">
+      <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
         <a href="#/" className="flex items-center gap-2 font-bold text-xl text-white">
           <img src="https://i.postimg.cc/x1r1wX6M/2.png" alt="Cairoeg Logo" className="h-8 w-auto" />
         </a>
-        <nav className="hidden md:flex items-center gap-6">
+        <nav className="hidden md:flex items-center gap-2">
           {navItems.map((n) => (
-            <a key={n.label} href={n.href} className="hover:text-pink-400 text-sm font-medium transition-all duration-300 hover:scale-105">{n.label}</a>
+            <a key={n.label} href={n.href} className="text-slate-300 hover:text-pink-400 text-sm font-medium transition-all duration-300 hover:scale-105 px-3 py-2">{n.label}</a>
           ))}
-           <a href="#/app" className="hover:text-pink-400 text-sm font-medium transition-all duration-300 hover:scale-105 flex items-center gap-1">
-             <LayoutGrid className="w-4 h-4" />
-             {t.dashboardTitle.split(' ')[0]}
-            </a>
+           <Button variant="ghost" className="rounded-2xl text-slate-300 hover:text-pink-400" asChild>
+             <a href="#/app" className="flex items-center gap-1">
+               <LayoutGrid className="w-4 h-4" />
+               {t.dashboardTitle.split(' ')[0]}
+              </a>
+           </Button>
         </nav>
         <div className="hidden md:flex items-center gap-2">
           <Button onClick={toggleLang} variant="ghost" className="rounded-2xl flex gap-1 text-slate-300 hover:text-pink-400">
             <Globe className="w-4 h-4 animate-spin" />{lang === "ar" ? "EN" : "AR"}
           </Button>
-          <Button variant="ghost" className="rounded-2xl text-slate-300 hover:text-pink-400">
+          <Button variant="ghost" className="rounded-2xl text-slate-300 hover:text-pink-400" asChild>
             <a href="#/login">{t.login}</a>
           </Button>
           <Button asChild className="rounded-2xl bg-gradient-to-r from-indigo-600 to-pink-600 hover:opacity-90 shadow-lg hover:shadow-pink-500/30 text-white">

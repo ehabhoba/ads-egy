@@ -9,7 +9,9 @@ import HomePage from './pages/HomePage';
 import DashboardPage from './pages/DashboardPage';
 import SocialPostGeneratorPage from './pages/SocialPostGeneratorPage';
 import SeoArticleGeneratorPage from './pages/SeoArticleGeneratorPage';
-import SmartSearchPage from './pages/SmartSearchPage'; // Import the new page
+import SmartSearchPage from './pages/SmartSearchPage';
+import LoginPage from './pages/LoginPage'; // Import the new page
+import SignupPage from './pages/SignupPage'; // Import the new page
 
 // --- MAIN APP COMPONENT (ROUTER) ---
 export default function App() {
@@ -43,6 +45,14 @@ export default function App() {
   const renderPage = () => {
     const allServices = getAllServices(lang);
 
+    // Auth Pages
+    if (route === '#/login') {
+      return <LoginPage lang={lang} translations={t} />;
+    }
+    if (route === '#/signup') {
+      return <SignupPage lang={lang} translations={t} />;
+    }
+
     // Route for a specific AI tool
     if (route.startsWith('#/app/tool/')) {
         const slug = route.split('/')[3];
@@ -54,7 +64,7 @@ export default function App() {
         if (service?.slug === 'seo-article-generator') {
             return <SeoArticleGeneratorPage service={service} lang={lang} />;
         }
-        if (service?.slug === 'smart-ai-search') { // Add route for Smart Search
+        if (service?.slug === 'smart-ai-search') {
             return <SmartSearchPage service={service} lang={lang} />;
         }
         // Fallback for other tool routes to the dashboard
