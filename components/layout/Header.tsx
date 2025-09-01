@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '../ui/Button';
-import { Globe, LayoutGrid, Menu, X } from 'lucide-react';
+import { Globe, LayoutGrid, Menu, X, LogOut, ChevronDown, User } from 'lucide-react';
 import type { NavItem } from '../../types';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '../../hooks/useAuth';
+import { getSupabase } from '../../lib/supabase';
+
+const supabase = getSupabase();
 
 interface HeaderProps {
   navItems: NavItem[];
@@ -13,6 +17,8 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ navItems, lang, toggleLang, translations: t }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const { user } = useAuth();
 
   useEffect(() => {
     const handleResize = () => {
@@ -25,6 +31,35 @@ const Header: React.FC<HeaderProps> = ({ navItems, lang, toggleLang, translation
   }, []);
   
   const closeMenu = () => setIsMenuOpen(false);
+  
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    window.location.hash = '#/';
+  };
+
+  const UserMenu = () => (
+    <div className="relative">
+      <Button onClick={() => setIsUserMenuOpen(!isUserMenuOpen)} variant="ghost" className="rounded-2xl flex items-center gap-2 text-slate-300 hover:text-pink-400">
+        <User className="w-4 h-4" />
+        <span>{user?.user_metadata?.name || user?.phone}</span>
+        <ChevronDown className={`w-4 h-4 transition-transform ${isUserMenuOpen ? 'rotate-180' : ''}`} />
+      </Button>
+      <AnimatePresence>
+        {isUserMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="absolute top-full right-0 mt-2 w-48 bg-slate-800 border border-slate-700 rounded-lg shadow-lg z-50"
+          >
+            <Button onClick={handleLogout} variant="ghost" className="w-full justify-start text-left px-4 py-2 text-slate-300 hover:bg-slate-700">
+              <LogOut className="w-4 h-4 mr-2" /> {lang === 'ar' ? 'تسجيل الخروج' : 'Logout'}
+            </Button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur bg-black/70 border-b border-slate-800 shadow-lg shadow-black/20">
@@ -47,12 +82,18 @@ const Header: React.FC<HeaderProps> = ({ navItems, lang, toggleLang, translation
           <Button onClick={toggleLang} variant="ghost" className="rounded-2xl flex gap-1 text-slate-300 hover:text-pink-400">
             <Globe className="w-4 h-4 animate-spin" />{lang === "ar" ? "EN" : "AR"}
           </Button>
-          <Button variant="ghost" className="rounded-2xl text-slate-300 hover:text-pink-400" asChild>
-            <a href="#/login">{t.login}</a>
-          </Button>
-          <Button asChild className="rounded-2xl bg-gradient-to-r from-indigo-600 to-pink-600 hover:opacity-90 shadow-lg hover:shadow-pink-500/30 text-white">
-            <a href="#/signup">{t.signUp}</a>
-          </Button>
+          {user ? (
+            <UserMenu />
+          ) : (
+            <>
+              <Button variant="ghost" className="rounded-2xl text-slate-300 hover:text-pink-400" asChild>
+                <a href="#/login">{t.login}</a>
+              </Button>
+              <Button asChild className="rounded-2xl bg-gradient-to-r from-indigo-600 to-pink-600 hover:opacity-90 shadow-lg hover:shadow-pink-500/30 text-white">
+                <a href="#/signup">{t.signUp}</a>
+              </Button>
+            </>
+          )}
         </div>
         <div className="md:hidden flex items-center">
             <Button onClick={() => setIsMenuOpen(!isMenuOpen)} variant="ghost" size="icon">
@@ -77,14 +118,20 @@ const Header: React.FC<HeaderProps> = ({ navItems, lang, toggleLang, translation
                         {t.dashboardTitle.split(' ')[0]}
                     </a>
                     <div className="border-t border-slate-700 w-full my-2"></div>
-                    <div className="flex items-center gap-4 w-full justify-center">
-                        <Button variant="ghost" className="rounded-2xl text-slate-300 hover:text-pink-400 text-lg" asChild>
-                           <a href="#/login" onClick={closeMenu}>{t.login}</a>
+                    {user ? (
+                        <Button onClick={handleLogout} variant="ghost" className="rounded-2xl text-slate-300 hover:text-pink-400 text-lg flex items-center gap-2">
+                           <LogOut className="w-5 h-5" /> {lang === 'ar' ? 'تسجيل الخروج' : 'Logout'}
                         </Button>
-                         <Button asChild className="rounded-2xl bg-gradient-to-r from-indigo-600 to-pink-600 hover:opacity-90 text-white text-lg px-6">
-                           <a href="#/signup" onClick={closeMenu}>{t.signUp}</a>
-                        </Button>
-                    </div>
+                    ) : (
+                      <div className="flex items-center gap-4 w-full justify-center">
+                          <Button variant="ghost" className="rounded-2xl text-slate-300 hover:text-pink-400 text-lg" asChild>
+                             <a href="#/login" onClick={closeMenu}>{t.login}</a>
+                          </Button>
+                           <Button asChild className="rounded-2xl bg-gradient-to-r from-indigo-600 to-pink-600 hover:opacity-90 text-white text-lg px-6">
+                             <a href="#/signup" onClick={closeMenu}>{t.signUp}</a>
+                          </Button>
+                      </div>
+                    )}
                      <Button onClick={toggleLang} variant="ghost" className="rounded-2xl flex gap-2 text-slate-300 hover:text-pink-400 mt-2 text-lg">
                         <Globe className="w-5 h-5 animate-spin" />{lang === "ar" ? "English" : "العربية"}
                     </Button>

@@ -14,19 +14,20 @@ import { getSupabase } from '../lib/supabase';
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 const supabase = getSupabase();
 
-interface SeoArticleGeneratorPageProps {
+interface VideoScriptGeneratorPageProps {
   service: Service | undefined;
   lang: 'ar' | 'en';
 }
 
-type Tone = 'informational' | 'persuasive' | 'casual';
+type Duration = '30s' | '1m' | '3m';
+type Style = 'promotional' | 'informational' | 'storytelling';
 
-const SeoArticleGeneratorPage: React.FC<SeoArticleGeneratorPageProps> = ({ service, lang }) => {
+const VideoScriptGeneratorPage: React.FC<VideoScriptGeneratorPageProps> = ({ service, lang }) => {
   const { user } = useAuth();
   const [topic, setTopic] = useState('');
-  const [keywords, setKeywords] = useState('');
-  const [tone, setTone] = useState<Tone>('informational');
-  const [generatedArticle, setGeneratedArticle] = useState('');
+  const [duration, setDuration] = useState<Duration>('1m');
+  const [style, setStyle] = useState<Style>('promotional');
+  const [generatedScript, setGeneratedScript] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [copySuccess, setCopySuccess] = useState(false);
@@ -34,7 +35,7 @@ const SeoArticleGeneratorPage: React.FC<SeoArticleGeneratorPageProps> = ({ servi
   const [history, setHistory] = useState<GenerationHistoryItem[]>([]);
   const [isLoadingHistory, setIsLoadingHistory] = useState(true);
 
-  const t = lang === 'ar' ? translations.ar.seoArticleGenerator : translations.en.seoArticleGenerator;
+  const t = lang === 'ar' ? translations.ar.videoScriptGenerator : translations.en.videoScriptGenerator;
 
   useEffect(() => {
     const fetchHistory = async () => {
@@ -44,7 +45,7 @@ const SeoArticleGeneratorPage: React.FC<SeoArticleGeneratorPageProps> = ({ servi
         .from('generation_history')
         .select('*')
         .eq('user_id', user.id)
-        .eq('generation_type', 'seo_article')
+        .eq('generation_type', 'video_script')
         .order('created_at', { ascending: false })
         .limit(10);
 
@@ -62,29 +63,31 @@ const SeoArticleGeneratorPage: React.FC<SeoArticleGeneratorPageProps> = ({ servi
   }
 
   const handleGenerate = async () => {
-    if (!topic || !keywords || isLoading || !user) return;
+    if (!topic || isLoading || !user) return;
     setIsLoading(true);
     setError('');
-    setGeneratedArticle('');
+    setGeneratedScript('');
 
-    const toneMap = { informational: lang === 'ar' ? 'معلوماتي وموضوعي' : 'informational and objective', persuasive: lang === 'ar' ? 'إقناعي وتسويقي' : 'persuasive and marketing-oriented', casual: lang === 'ar' ? 'غير رسمي وبسيط' : 'casual and simple' };
+    const styleMap = { promotional: lang === 'ar' ? 'إعلاني جذاب' : 'engaging and promotional', informational: lang === 'ar' ? 'معلوماتي وتعليمي' : 'informational and educational', storytelling: lang === 'ar' ? 'قصصي ومؤثر' : 'emotional and storytelling' };
+    const durationMap = { '30s': lang === 'ar' ? '30 ثانية' : '30 seconds', '1m': lang === 'ar' ? 'دقيقة واحدة' : '1 minute', '3m': lang === 'ar' ? '3 دقائق' : '3 minutes' };
     const langPrompt = lang === 'ar' ? `in Arabic` : `in English`;
-    const prompt = `Write a comprehensive, SEO-optimized article ${langPrompt}.\nTopic: "${topic}"\nKeywords: "${keywords}"\nTone: "${toneMap[tone]}"\n\nThe article must include the following structure:\n1. An engaging H1 title.\n2. A meta description (around 155 characters).\n3. An introduction that hooks the reader.\n4. A well-structured body with multiple sections using H2 and H3 headings.\n5. Incorporate the keywords naturally throughout the article.\n6. A concluding summary.\n\nFormat the output clearly with markdown for headings.`;
+
+    const prompt = `Write a professional video script ${langPrompt}.\nTopic: "${topic}"\nTarget Duration: "${durationMap[duration]}"\nStyle: "${styleMap[style]}"\n\nThe script must include:\n1. Scene Number: (e.g., SCENE 1)\n2. Visuals: A clear description of what is happening on screen.\n3. Voiceover/Dialogue: The spoken words for the scene.\n\nStructure the output clearly with markdown.`;
 
     try {
       const response = await ai.models.generateContent({
         model: "gemini-2.5-flash",
         contents: prompt,
-        config: { systemInstruction: "You are an expert SEO content strategist and copywriter, skilled in creating high-ranking, engaging, and well-structured articles." }
+        config: { systemInstruction: "You are a professional scriptwriter and video producer, skilled in creating compelling scripts that are timed appropriately and visually descriptive." }
       });
 
-      const newArticle = response.text;
-      setGeneratedArticle(newArticle);
+      const newScript = response.text;
+      setGeneratedScript(newScript);
       
-      const inputs = { topic, keywords, tone };
+      const inputs = { topic, duration, style, tone: style }; // tone is mandatory in type, style is more appropriate here
       const { data, error: dbError } = await supabase
         .from('generation_history')
-        .insert([{ user_id: user.id, generation_type: 'seo_article', inputs, output: newArticle }]);
+        .insert([{ user_id: user.id, generation_type: 'video_script', inputs, output: newScript }]);
 
       if (dbError) {
         console.error('Error saving history:', dbError);
@@ -93,7 +96,7 @@ const SeoArticleGeneratorPage: React.FC<SeoArticleGeneratorPageProps> = ({ servi
       }
 
     } catch (err) {
-      console.error("Error generating article:", err);
+      console.error("Error generating script:", err);
       setError(t.error);
     } finally {
       setIsLoading(false);
@@ -101,18 +104,19 @@ const SeoArticleGeneratorPage: React.FC<SeoArticleGeneratorPageProps> = ({ servi
   };
   
   const handleCopy = () => {
-    if (generatedArticle) {
-        navigator.clipboard.writeText(generatedArticle);
+    if (generatedScript) {
+        navigator.clipboard.writeText(generatedScript);
         setCopySuccess(true);
         setTimeout(() => setCopySuccess(false), 2000);
     }
   };
 
   const handleReloadHistory = (item: GenerationHistoryItem) => {
-    setGeneratedArticle(item.output);
+    setGeneratedScript(item.output);
     setTopic(item.inputs.topic);
-    setKeywords(item.inputs.keywords || '');
-    setTone((item.inputs.tone as Tone) || 'informational');
+    setDuration((item.inputs.duration as Duration) || '1m');
+    // Use style first, but fall back to tone (since tone is required and mirrors style) and then a default value.
+    setStyle(((item.inputs.style || item.inputs.tone) as Style) || 'promotional');
   };
 
   const { icon: Icon } = service;
@@ -133,7 +137,7 @@ const SeoArticleGeneratorPage: React.FC<SeoArticleGeneratorPageProps> = ({ servi
       </header>
 
       <div className="grid lg:grid-cols-3 gap-8">
-        {/* --- CONTROLS --- */}
+        {/* --- CONTROLS & HISTORY --- */}
         <div className="lg:col-span-1 flex flex-col gap-8">
             <Card className="rounded-2xl border border-slate-700 bg-slate-900 shadow-xl p-6 h-fit">
                 <div className="space-y-6">
@@ -142,18 +146,22 @@ const SeoArticleGeneratorPage: React.FC<SeoArticleGeneratorPageProps> = ({ servi
                         <Input value={topic} onChange={(e) => setTopic(e.target.value)} placeholder={t.topicPlaceholder} className="bg-black/50 border-slate-700 text-white"/>
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-2">{t.keywordsLabel}</label>
-                        <Input value={keywords} onChange={(e) => setKeywords(e.target.value)} placeholder={t.keywordsPlaceholder} className="bg-black/50 border-slate-700 text-white"/>
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-2">{t.toneLabel}</label>
+                        <label className="block text-sm font-medium text-slate-300 mb-2">{t.durationLabel}</label>
                          <div className="grid grid-cols-3 gap-2">
-                             {(['informational', 'persuasive', 'casual'] as Tone[]).map(to => (
-                                <Button key={to} onClick={() => setTone(to)} variant={tone === to ? 'default' : 'outline'} className={`rounded-lg transition-all ${tone === to ? 'bg-pink-600 text-white' : 'border-slate-700 text-slate-300'}`}>{t.toneOptions[to]}</Button>
+                             {(['30s', '1m', '3m'] as Duration[]).map(d => (
+                                <Button key={d} onClick={() => setDuration(d)} variant={duration === d ? 'default' : 'outline'} className={`rounded-lg transition-all ${duration === d ? 'bg-indigo-600 text-white' : 'border-slate-700 text-slate-300'}`}>{t.durationOptions[d]}</Button>
                             ))}
                         </div>
                     </div>
-                     <Button onClick={handleGenerate} disabled={isLoading || !topic || !keywords} size="lg" className="w-full rounded-lg bg-gradient-to-r from-pink-600 to-indigo-600 hover:opacity-90 text-white">
+                    <div>
+                        <label className="block text-sm font-medium text-slate-300 mb-2">{t.styleLabel}</label>
+                         <div className="grid grid-cols-3 gap-2">
+                             {(['promotional', 'informational', 'storytelling'] as Style[]).map(s => (
+                                <Button key={s} onClick={() => setStyle(s)} variant={style === s ? 'default' : 'outline'} className={`rounded-lg transition-all ${style === s ? 'bg-pink-600 text-white' : 'border-slate-700 text-slate-300'}`}>{t.styleOptions[s]}</Button>
+                            ))}
+                        </div>
+                    </div>
+                     <Button onClick={handleGenerate} disabled={isLoading || !topic} size="lg" className="w-full rounded-lg bg-gradient-to-r from-pink-600 to-indigo-600 hover:opacity-90 text-white">
                         {isLoading ? (<><LoaderCircle className="mr-2 h-5 w-5 animate-spin" /> {t.generatingButton}</>) : (<><Wand2 className="mr-2 h-5 w-5" /> {t.generateButton}</>)}
                     </Button>
                 </div>
@@ -188,7 +196,7 @@ const SeoArticleGeneratorPage: React.FC<SeoArticleGeneratorPageProps> = ({ servi
              <Card className="rounded-2xl border border-slate-700 bg-slate-900 shadow-xl min-h-[500px] h-full">
                 <CardHeader className="flex flex-row justify-between items-center">
                     <CardTitle className="text-white">{t.resultTitle}</CardTitle>
-                    {generatedArticle && !isLoading && (
+                    {generatedScript && !isLoading && (
                         <Button onClick={handleCopy} variant="ghost" size="sm" className="text-slate-400 hover:text-white">
                            {copySuccess ? <Check className="h-4 w-4 text-green-500" /> : <ClipboardCopy className="h-4 w-4" />}
                            <span className="ml-2">{copySuccess ? t.copiedButton : t.copyButton}</span>
@@ -197,10 +205,10 @@ const SeoArticleGeneratorPage: React.FC<SeoArticleGeneratorPageProps> = ({ servi
                 </CardHeader>
                 <CardContent>
                     <div className="prose prose-invert prose-p:text-slate-300 prose-headings:text-indigo-400 whitespace-pre-wrap p-4 bg-black/40 rounded-lg border border-slate-800 min-h-[calc(100vh-20rem)] max-h-[75vh] overflow-y-auto text-right">
-                        {isLoading && <div className="flex items-center justify-center h-full text-slate-400">{lang === 'ar' ? 'جاري كتابة المقال...' : 'Writing article...'}</div>}
+                        {isLoading && <div className="flex items-center justify-center h-full text-slate-400">{lang === 'ar' ? 'جاري كتابة السكربت...' : 'Writing script...'}</div>}
                         {error && <div className="flex items-center justify-center h-full text-red-400">{error}</div>}
-                        {!isLoading && !generatedArticle && !error && <div className="flex items-center justify-center h-full text-slate-500">{lang === 'ar' ? 'ستظهر نتائجك هنا.' : 'Your results will appear here.'}</div>}
-                        {generatedArticle}
+                        {!isLoading && !generatedScript && !error && <div className="flex items-center justify-center h-full text-slate-500">{lang === 'ar' ? 'ستظهر نتائجك هنا.' : 'Your results will appear here.'}</div>}
+                        {generatedScript}
                     </div>
                 </CardContent>
             </Card>
@@ -210,4 +218,4 @@ const SeoArticleGeneratorPage: React.FC<SeoArticleGeneratorPageProps> = ({ servi
   );
 };
 
-export default SeoArticleGeneratorPage;
+export default VideoScriptGeneratorPage;

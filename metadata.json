@@ -1,5 +1,6 @@
 {
   "name": "Cairoeg AI Marketing Platform",
   "description": "A landing page for an AI-powered digital marketing agency offering over 50 services including advertising, content creation, SEO, analytics, and e-commerce solutions. The page is bilingual, supporting Arabic and English.",
-  "requestFramePermissions": []
+  "requestFramePermissions": [],
+  "env": []
 }

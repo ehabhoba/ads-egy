@@ -1,9 +1,9 @@
 import { 
   PlayCircle, Mic, Share2, FileText, Search, BrainCircuit, LayoutGrid, Lock, MonitorPlay, Braces, Target,
   Send, Bot, Replace, Stars, Link, BarChart3, Reply, Flag, MailPlus, UserCheck, Settings2, Link2, Megaphone,
-  FileJson, BarChart, Users, Store, Package, GitBranch, Database, Cloud, Zap, ShieldCheck
+  FileJson, BarChart, Users, Store, Package, GitBranch, Database, Cloud, Zap, ShieldCheck, Film
 } from "lucide-react";
-import type { Service } from './types';
+import type { Service } from '../types';
 
 export const translations = {
   ar: {
@@ -58,6 +58,10 @@ export const translations = {
       copyButton: "نسخ النص",
       copiedButton: "تم النسخ!",
       error: "عذرًا, حدث خطأ. يرجى المحاولة مرة أخرى.",
+      historyTitle: "سجلك الأخير",
+      historyEmpty: "لم تقم بإنشاء أي منشورات بعد.",
+      historyReloadButton: "استخدام",
+      historyLoading: "جاري تحميل السجل...",
     },
     seoArticleGenerator: {
       title: "مولد مقالات SEO",
@@ -74,6 +78,30 @@ export const translations = {
       copyButton: "نسخ المقال",
       copiedButton: "تم النسخ!",
       error: "عذرًا, حدث خطأ. يرجى المحاولة مرة أخرى.",
+      historyTitle: "مقالاتك الأخيرة",
+      historyEmpty: "لم تقم بإنشاء أي مقالات بعد.",
+      historyReloadButton: "عرض",
+      historyLoading: "جاري تحميل السجل...",
+    },
+     videoScriptGenerator: {
+      title: "مولد سكربتات الفيديو",
+      subtitle: "أنشئ سكربتات فيديو احترافية للمحتوى الإعلاني أو التعليمي.",
+      topicLabel: "موضوع الفيديو",
+      topicPlaceholder: "مثال: كيف تصنع كوب قهوة مثالي في المنزل",
+      durationLabel: "مدة الفيديو",
+      durationOptions: { "30s": "30 ثانية", "1m": "دقيقة", "3m": "3 دقائق" },
+      styleLabel: "اختر الأسلوب",
+      styleOptions: { promotional: "إعلاني", informational: "معلوماتي", storytelling: "قصصي" },
+      generateButton: "إنشاء السكربت",
+      generatingButton: "جاري الكتابة...",
+      resultTitle: "السكربت المقترح",
+      copyButton: "نسخ السكربت",
+      copiedButton: "تم النسخ!",
+      error: "عذرًا, حدث خطأ. يرجى المحاولة مرة أخرى.",
+      historyTitle: "سكربتاتك الأخيرة",
+      historyEmpty: "لم تقم بإنشاء أي سكربتات بعد.",
+      historyReloadButton: "استخدام",
+      historyLoading: "جاري تحميل السجل...",
     },
     smartSearch: {
       title: "البحث الذكي (AI)",
@@ -125,6 +153,13 @@ export const translations = {
           desc: "مقالات كاملة محسنة للـSEO مع نشر مباشر أو مجدول في المدونة.",
           features: ["إنشاء مقالات طويلة ومحسنة للـSEO", "تحسين تلقائي للعناوين والوصف", "دعم لغات متعددة", "نشر مباشر أو مجدول في المدونة"],
           benefits: ["تصدر نتائج البحث بكلمات مفتاحية مستهدفة", "زيادة الزيارات العضوية للموقع", "بناء سلطة وموثوقية في مجالك", "توفير تكاليف كتابة المحتوى"]
+        },
+        { 
+          icon: Film, title: "مولد سكربتات الفيديو", slug: "video-script-generator",
+           path: "#/app/tool/video-script-generator",
+          desc: "أنشئ سكربتات فيديو إعلانية أو تعليمية مع وصف للمشاهد والحوار.",
+          features: ["توليد سكربتات فيديو احترافية", "تحديد مدة الفيديو (قصير، متوسط، طويل)", "اختيار أسلوب السكربت (إعلاني، قصصي)", "تضمين وصف للمشاهد والمؤثرات"],
+          benefits: ["توفير الوقت في كتابة السكربتات", "الحصول على أفكار إبداعية لمحتوى الفيديو", "إنتاج فيديوهات ذات جودة عالية", "توحيد الرسالة التسويقية في الفيديو"]
         },
         { 
           icon: Search, title: "نظام فحص المواقع والزحف", slug: "website-testing-crawling",
@@ -323,17 +358,17 @@ export const translations = {
         }
     ],
     featuresTitle: "بنية تحتية قوية وتقنيات حديثة",
-    featuresSubtitle: "نعتمد على أفضل التقنيات لضمان أداء عالٍ، أمان، وقابلية للتوسع.",
+    featuresSubtitle: "نعتمد على أفضل التقنيات لضمان الأداء العالي والأمان والقابلية للتوسع.",
     features: [
-      { icon: GitBranch, title: "GitHub", desc: "لإدارة الشيفرة المصدرية والمشاريع." },
-      { icon: Database, title: "Supabase", desc: "قاعدة بيانات متكاملة لإدارة المستخدمين، الحملات، المتاجر والمحتوى." },
-      { icon: Cloud, title: "Netlify", desc: "للاستضافة والنشر السحابي السريع والآمن." },
-      { icon: BrainCircuit, title: "Gemini & OpenAI", desc: "لتحسين SEO، البحث المتقدم، توليد المحتوى والصوت." },
-      { icon: Zap, title: "بنية قابلة للتوسع", desc: "تصميم قائم على Serverless و Microservices للنمو المستقبلي." },
-      { icon: ShieldCheck, title: "أمان متكامل", desc: "حماية بيانات العملاء والحملات بأعلى معايير الأمان." },
+      { icon: GitBranch, title: "GitHub", desc: "لإدارة الكود المصدري والمشاريع." },
+      { icon: Database, title: "Supabase", desc: "قاعدة بيانات متكاملة للمستخدمين، الحملات، المتاجر، والمحتوى." },
+      { icon: Cloud, title: "Netlify", desc: "للاستضافة السحابية والنشر السريع والآمن." },
+      { icon: BrainCircuit, title: "Gemini & OpenAI", desc: "لتحسين محركات البحث، البحث المتقدم، توليد المحتوى والصوت." },
+      { icon: Zap, title: "Scalable Architecture", desc: "تصميم بدون خوادم وخدمات مصغرة للنمو المستقبلي." },
+      { icon: ShieldCheck, title: "Integrated Security", desc: "حماية بيانات العملاء والحملات بأعلى المعايير." },
     ],
-    demoTitle: "شاهد الذكاء الاصطناعي أثناء العمل",
-    demoSubtitle: "جرب مولد منشورات السوشيال ميديا بنفسك. فقط أدخل موضوعًا وشاهد السحر.",
+    demoTitle: "شاهد الذكاء الاصطناعي في العمل",
+    demoSubtitle: "جرّب مولد منشورات التواصل الاجتماعي. فقط أدخل موضوعًا وشاهد السحر.",
     demoInputPlaceholder: "مثال: نصائح تسويقية للمقاهي",
     demoGenerateButton: "إنشاء منشور",
     demoGeneratingButton: "جاري الإنشاء...",
@@ -342,29 +377,29 @@ export const translations = {
     demoCopied: "تم النسخ!",
     pricingTitle: "خطط أسعار مرنة",
     pricingPlans: [
-        { name: "المجانية", price: "0", features: ["خدمات أساسية محدودة", "ملف شخصي للعميل", "نشر مقال واحد شهريًا", "دعم عبر المجتمع"] },
-        { name: "الاحترافية", price: "499", popular: true, features: ["كل شيء في الخطة المجانية", "أدوات AI متقدمة", "متجر إلكتروني خاص", "تحليلات وتقارير SEO", "دعم فني مخصص"] },
-        { name: "الشركات", price: "مخصص", features: ["كل شيء في الخطة الاحترافية", "إدارة حملات متعددة", "واجهة API للتكامل", "مدير حساب مخصص", "دعم على مدار الساعة"] }
+        { name: "مجانية", price: "0", features: ["خدمات أساسية محدودة", "ملف شخصي للعميل", "مقالة واحدة/شهر", "دعم مجتمعي"] },
+        { name: "احترافية", price: "499 جنيه", popular: true, features: ["كل ما في الخطة المجانية", "أدوات ذكاء اصطناعي متقدمة", "متجر إلكتروني خاص", "تحليلات وتقارير SEO", "دعم فني مخصص"] },
+        { name: "مؤسسات", price: "مخصص", features: ["كل ما في الخطة الاحترافية", "إدارة حملات متعددة", "وصول API للتكامل", "مدير حساب مخصص", "دعم ذو أولوية 24/7"] }
     ],
     contactTitle: "تواصل معنا",
-    contactText: "لديك مشروع أو تحتاج دعم؟ تواصل مباشرة معنا وسنعود إليك سريعاً.",
+    contactText: "هل لديك مشروع أو تحتاج إلى دعم؟ تواصل معنا مباشرة، وسنرد عليك بسرعة.",
     contactWhatsapp: "واتساب متاح",
     contactFormTitle: "أرسل رسالة",
     contactFormName: "الاسم",
     contactFormEmail: "البريد الإلكتروني أو الهاتف",
     contactFormMessage: "اكتب رسالتك",
     contactFormSend: "إرسال",
-    footerDesc: "منصة إعلانات بالذكاء الاصطناعي. أنشئ، انشر، وتوسع بسرعة وكفاءة.",
+    footerDesc: "منصة إعلانية بالذكاء الاصطناعي. أنشئ، انشر، وتوسع بسرعة وكفاءة.",
     footerCompany: "الشركة",
-    footerResources: "مصادر",
+    footerResources: "المصادر",
     blog: "المدونة",
     faq: "الأسئلة الشائعة",
     footerLegal: "قانوني",
     privacyPolicy: "سياسة الخصوصية",
     termsOfService: "شروط الخدمة",
-    newsletter: "النشرة الإخبارية",
-    newsletterDesc: "ابق على اطلاع بآخر التحديثات والعروض.",
-    subscribe: "اشترك",
+    newsletter: "النشرة البريدية",
+    newsletterDesc: "ابق على اطلاع بآخر ميزاتنا وعروضنا.",
+    subscribe: "اشتراك",
     footerTools: "الأدوات",
     footerFollow: "تابعنا",
   },
@@ -373,17 +408,17 @@ export const translations = {
       { label: "Home", href: "#/" },
       { label: "Services", href: "#/services" },
       { label: "Pricing", href: "#/pricing" },
-      { label: "Contact", href: "#/contact" },
+      { label: "Contact Us", href: "#/contact" },
     ],
     login: "Login",
     signUp: "Sign Up",
     loginPage: {
         title: "Welcome Back!",
-        subtitle: "Sign in to access your dashboard.",
+        subtitle: "Login to access your dashboard.",
         emailLabel: "Email or Phone Number",
         passwordLabel: "Password",
         loginButton: "Login",
-        forgotPassword: "Forgot Password?",
+        forgotPassword: "Forgot password?",
         orContinueWith: "Or continue with",
         googleButton: "Continue with Google",
         whatsappButton: "Continue with WhatsApp",
@@ -405,14 +440,14 @@ export const translations = {
         loginLink: "Login"
     },
     dashboardTitle: "Dashboard",
-    dashboardSubtitle: "Welcome to your digital marketing toolkit. Select a tool to get started.",
+    dashboardSubtitle: "Welcome to your digital marketing toolkit. Choose a tool to get started.",
     socialPostGenerator: {
       title: "Social Media Post Generator",
-      subtitle: "Create engaging social media posts in seconds.",
+      subtitle: "Create engaging posts for social media platforms in seconds.",
       topicLabel: "Post Topic",
-      topicPlaceholder: "e.g., Launching a new coffee product",
-      platformLabel: "Select Platform",
-      toneLabel: "Select Tone",
+      topicPlaceholder: "e.g., Launch of a new coffee product",
+      platformLabel: "Choose Platform",
+      toneLabel: "Choose Tone",
       toneOptions: { professional: "Professional", friendly: "Friendly", humorous: "Humorous" },
       generateButton: "Generate Post",
       generatingButton: "Generating...",
@@ -420,15 +455,19 @@ export const translations = {
       copyButton: "Copy Text",
       copiedButton: "Copied!",
       error: "Sorry, an error occurred. Please try again.",
+      historyTitle: "Your Recent History",
+      historyEmpty: "You haven't generated any posts yet.",
+      historyReloadButton: "Use",
+      historyLoading: "Loading history...",
     },
     seoArticleGenerator: {
       title: "SEO Article Generator",
       subtitle: "Create complete, SEO-optimized articles in minutes.",
       topicLabel: "Article Topic",
       topicPlaceholder: "e.g., Best content marketing strategies for 2024",
-      keywordsLabel: "Keywords (comma-separated)",
+      keywordsLabel: "Keywords (separate with comma)",
       keywordsPlaceholder: "content marketing, seo, marketing strategy",
-      toneLabel: "Select Tone",
+      toneLabel: "Choose Tone",
       toneOptions: { informational: "Informational", persuasive: "Persuasive", casual: "Casual" },
       generateButton: "Generate Article",
       generatingButton: "Writing...",
@@ -436,26 +475,50 @@ export const translations = {
       copyButton: "Copy Article",
       copiedButton: "Copied!",
       error: "Sorry, an error occurred. Please try again.",
+      historyTitle: "Your Recent Articles",
+      historyEmpty: "You haven't generated any articles yet.",
+      historyReloadButton: "View",
+      historyLoading: "Loading history...",
+    },
+    videoScriptGenerator: {
+      title: "Video Script Generator",
+      subtitle: "Create professional video scripts for promotional or educational content.",
+      topicLabel: "Video Topic",
+      topicPlaceholder: "e.g., How to make the perfect cup of coffee at home",
+      durationLabel: "Video Duration",
+      durationOptions: { "30s": "30 sec", "1m": "1 min", "3m": "3 min" },
+      styleLabel: "Choose Style",
+      styleOptions: { promotional: "Promotional", informational: "Informational", storytelling: "Storytelling" },
+      generateButton: "Generate Script",
+      generatingButton: "Writing...",
+      resultTitle: "Generated Script",
+      copyButton: "Copy Script",
+      copiedButton: "Copied!",
+      error: "Sorry, an error occurred. Please try again.",
+      historyTitle: "Your Recent Scripts",
+      historyEmpty: "You haven't generated any scripts yet.",
+      historyReloadButton: "Use",
+      historyLoading: "Loading history...",
     },
     smartSearch: {
-      title: "Smart AI Search",
-      subtitle: "Get accurate, up-to-date answers from the web, backed by sources.",
+      title: "Smart Search (AI)",
+      subtitle: "Get accurate, up-to-date answers from the internet, backed by sources.",
       queryLabel: "What are you looking for?",
-      queryPlaceholder: "e.g., What are the latest updates to Google's algorithms?",
+      queryPlaceholder: "e.g., What are the latest Google algorithm updates?",
       generateButton: "Search Now",
       generatingButton: "Searching...",
       resultTitle: "Search Results",
       sourcesTitle: "Sources",
-      error: "Sorry, an error occurred while searching. Please try again.",
+      error: "Sorry, an error occurred during the search. Please try again.",
     },
     contactLabel: "Contact",
-    heroTitle: "Fully Integrated AI-Powered Advertising Platform",
-    heroSubtitle: "Over 50 services in one place to simplify digital marketing, content management, SEO, and brand expansion. Smart, effective solutions for the Egyptian and Arab market.",
+    heroTitle: "Integrated AI-Powered Advertising Platform",
+    heroSubtitle: "Over 50 services in one place to simplify digital marketing, content management, SEO, and brand expansion. Smart and effective solutions designed for the Egyptian and Arab markets.",
     heroBtnStart: "Get Started",
     heroBtnDiscover: "Discover Services",
     serviceTabs: [
       { id: 'core', title: 'Core Platform Components' },
-      { id: 'advanced', title: 'Advanced Publishing & Growth' },
+      { id: 'advanced', title: 'Advanced Publishing & Growth Services' },
       { id: 'seo', title: 'SEO & Meta Optimization Tools' },
       { id: 'integrated', title: 'Additional Integrated Systems' },
     ],
@@ -463,71 +526,78 @@ export const translations = {
         { 
           icon: PlayCircle, title: "Video Display System", slug: "video-display-system",
           path: "#/app/tool/video-display-system",
-          desc: "Public/private video library, internal ads, and service samples with client video uploads.",
-          features: ["Public and private video libraries", "Support for internal video ads", "Video categorization (Ads, Tutorials)", "Client-specific campaign video uploads"],
-          benefits: ["Increase audience engagement with visual content", "Professionally showcase services and work samples", "Centralize video content management", "Enhance the client experience"]
+          desc: "Public and private video library, internal ads, service samples, and client video uploads.",
+          features: ["Public and private video library", "Support for internal video ads", "Video categorization (ads, tutorials)", "Upload campaign-specific videos"],
+          benefits: ["Increase audience engagement with visual content", "Professionally showcase services and work samples", "Centralized video content management", "Enhance customer experience"]
         },
         { 
           icon: Mic, title: "AI Text-to-Speech (TTS)", slug: "ai-text-to-speech",
            path: "#/app/tool/ai-text-to-speech",
-          desc: "Supports Arabic & Egyptian dialect, multiple voices, and tone customization for ads.",
-          features: ["Multi-language support (Arabic, English)", "Diverse male and female voices", "Customizable tone (formal, friendly)", "Download audio or merge with video"],
-          benefits: ["Quickly create professional voice-overs", "Save costs on human voice talent", "Personalize visual content", "Reach audiences who prefer audio content"]
+          desc: "Supports Arabic with an Egyptian dialect, multiple voices, and tone customization for ads.",
+          features: ["Multi-language support (Arabic, English)", "Diverse male and female voices", "Voice tone customization (formal, friendly)", "Download audio or merge with video"],
+          benefits: ["Quickly create professional voiceovers", "Save on human voiceover costs", "Add a personal touch to visual content", "Reach audiences who prefer audio content"]
         },
         { 
           icon: Share2, title: "Social Media Post Generator", slug: "social-post-generator",
            path: "#/app/tool/social-post-generator",
           desc: "AI generates text, images, and hashtags for multiple platforms with auto-scheduling.",
-          features: ["AI-powered text and image content generation", "Trending hashtag suggestions", "Support for all major platforms (Facebook, Instagram, etc.)", "Auto-scheduling for posts"],
-          benefits: ["Save time and effort in content creation", "Maintain a consistent social media presence", "Increase engagement with compelling content", "Unify brand identity across platforms"]
+          features: ["AI-powered text and image content generation", "Trending hashtag suggestions", "Support for all platforms (Facebook, Instagram, ...)", "Automatic post scheduling"],
+          benefits: ["Save time and effort in content creation", "Maintain a consistent social media presence", "Increase engagement with attractive content", "Unify brand identity across platforms"]
         },
         { 
           icon: FileText, title: "SEO Article Generator", slug: "seo-article-generator",
            path: "#/app/tool/seo-article-generator",
-          desc: "Full, SEO-optimized articles with direct or scheduled publishing to the blog.",
+          desc: "Full SEO-optimized articles with direct or scheduled publishing to your blog.",
           features: ["Create long-form, SEO-optimized articles", "Automatic title and description optimization", "Multi-language support", "Direct or scheduled blog publishing"],
           benefits: ["Rank higher in search results for target keywords", "Increase organic website traffic", "Build authority and credibility in your field", "Save on content writing costs"]
         },
         { 
-          icon: Search, title: "Website Testing & Crawling System", slug: "website-testing-crawling",
-           path: "#/app/tool/website-testing-crawling",
-          desc: "Full site crawl, SEO reports, speed analysis, and technical error detection.",
-          features: ["Comprehensive on-page and off-page SEO analysis", "Detect technical errors (404, 301)", "Page load speed analysis", "Downloadable PDF reports"],
-          benefits: ["Improve overall website performance", "Boost Google ranking", "Enhance user experience (UX)", "Get actionable insights"]
+          icon: Film, title: "Video Script Generator", slug: "video-script-generator",
+           path: "#/app/tool/video-script-generator",
+          desc: "Create promotional or educational video scripts with scene descriptions and dialogue.",
+          features: ["Generate professional video scripts", "Define video duration (short, medium, long)", "Choose script style (promotional, storytelling)", "Includes scene descriptions and effects"],
+          benefits: ["Save time on scriptwriting", "Get creative ideas for video content", "Produce high-quality videos", "Unify marketing message in videos"]
         },
         { 
-          icon: BrainCircuit, title: "Smart AI Search", slug: "smart-ai-search",
+          icon: Search, title: "Website Testing & Crawling System", slug: "website-testing-crawling",
+           path: "#/app/tool/website-testing-crawling",
+          desc: "Full site crawl, SEO reports, and analysis of speed and technical errors.",
+          features: ["Comprehensive on-page and off-page SEO analysis", "Detect technical errors (404, 301)", "Page load speed analysis", "Downloadable PDF reports"],
+          benefits: ["Improve overall website performance", "Boost your site's Google ranking", "Enhance user experience (UX)", "Get actionable insights"]
+        },
+        { 
+          icon: BrainCircuit, title: "Smart AI Search System", slug: "smart-ai-search",
            path: "#/app/tool/smart-ai-search",
-          desc: "Gathers live data from the internet to improve content accuracy and analysis.",
-          features: ["Live search on Google, YouTube, Twitter", "Collect real-time data for content creation", "Improve accuracy of analytics and reports", "Understand market trends and competitors"],
-          benefits: ["Create content based on up-to-date information", "Gain a competitive advantage", "Enhance marketing strategies", "Deeper understanding of the target audience"]
+          desc: "Gathers live data from the internet to improve content accuracy and analytics.",
+          features: ["Live search on Google, YouTube, Twitter", "Collect real-time data for content creation", "Enhance accuracy of analytics and reports", "Understand market trends and competitors"],
+          benefits: ["Create content based on up-to-date data", "Gain a competitive edge", "Improve marketing strategies", "Gain deeper insights into your target audience"]
         },
         { 
           icon: LayoutGrid, title: "Advanced Blogging System", slug: "advanced-blogging-system",
            path: "#/app/tool/advanced-blogging-system",
           desc: "Auto-publish after admin approval, supports audio/video articles, and auto-indexing.",
-          features: ["Post approval system for articles", "Support for written, audio, and video articles", "Automatic Google indexing", "Article rating system"],
-          benefits: ["Enrich content with diverse formats", "Ensure quality of published content", "Speed up Google indexing process", "Increase reader engagement"]
+          features: ["Approval system for article publishing", "Support for written, audio, and video articles", "Automatic Google indexing", "Article rating system"],
+          benefits: ["Enrich your content with diverse formats", "Ensure the quality of published content", "Speed up the Google indexing process", "Increase reader engagement"]
         },
         { 
           icon: Lock, title: "Simple & Secure Login System", slug: "secure-login-system",
            path: "#/app/tool/secure-login-system",
           desc: "Login with phone and password, with support for WhatsApp and Google sign-in.",
-          features: ["Login with phone number", "Sign-in with Google and WhatsApp accounts", "Secure password recovery", "Personal dashboard for each client"],
-          benefits: ["Easy and fast login experience", "Secure client accounts with best practices", "Convenient access to services and tools", "Centralized client information management"]
+          features: ["Phone number login", "Sign in with Google and WhatsApp accounts", "Secure password recovery", "Personal dashboard for each client"],
+          benefits: ["Easy and fast login experience", "Secure client accounts with top standards", "Convenient access to services and tools", "Centralized client information management"]
         },
         { 
           icon: MonitorPlay, title: "Social Media Hub", slug: "social-media-hub",
            path: "#/app/tool/social-media-hub",
           desc: "Display client social media accounts and posts with integrated engagement stats.",
-          features: ["Link and display social media accounts", "Automatically show recent posts", "Integrated engagement stats (likes, comments)", "Display live ad campaigns"],
-          benefits: ["Unified view of client's digital presence", "Showcase account strength and grow followers", "Monitor performance from one place", "Enhance transparency with clients"]
+          features: ["Connect and display social media accounts", "Automatically show recent posts", "Integrated engagement stats (likes, comments)", "Display live ad campaigns"],
+          benefits: ["Unified view of a client's digital presence", "Highlight account strength and grow followers", "Monitor performance from one place", "Enhance transparency with clients"]
         },
         { 
           icon: Braces, title: "Internal Ads & Templates", slug: "internal-ads-templates",
            path: "#/app/tool/internal-ads-templates",
           desc: "Ready-to-use ad templates (text + images) and an internal ad management system.",
-          features: ["Library of ready-to-use ad templates", "Easy template customization", "Internal ad management system", "Showcase client offers and discounts"],
+          features: ["Library of ready-to-use ad templates", "Easy template customization", "Internal ad management system", "Highlight client offers and discounts"],
           benefits: ["Launch ad campaigns quickly", "Save on ad design costs", "Get inspiration for new ad ideas", "Increase campaign effectiveness"]
         },
         { 
@@ -543,63 +613,63 @@ export const translations = {
           icon: Send, title: "Universal Auto-Publishing", slug: "universal-auto-publishing",
            path: "#/app/tool/universal-auto-publishing",
           desc: "Publish content across multiple platforms at once with advanced scheduling.",
-          features: ["Simultaneous posting to (Facebook, Twitter, Instagram...)", "Advanced scheduling (day, hour, timezone)", "Manage content from a single calendar", "Unified performance reports"],
-          benefits: ["Massive time and effort savings", "Ensure posting consistency across platforms", "Reach audiences at peak engagement times", "Simplify content management"]
+          features: ["Simultaneous publishing to (Facebook, Twitter, Instagram...)", "Advanced scheduling (day, hour, time zone)", "Manage content from a single calendar", "Unified performance reports"],
+          benefits: ["Massive time and effort savings", "Ensure publishing consistency across platforms", "Reach audiences at peak engagement times", "Simplify content management"]
         },
         { 
           icon: Bot, title: "Advanced Crawling System", slug: "advanced-crawling-system",
            path: "#/app/tool/advanced-crawling-system",
           desc: "Crawl competitor sites, extract keywords, and monitor their backlinks.",
-          features: ["Full competitor website analysis", "Extract keywords they rank for", "Monitor competitor backlink building", "Periodic reports to improve ranking"],
-          benefits: ["Uncover successful competitor strategies", "Find new keyword opportunities", "Build a powerful backlink strategy", "Continuously improve your Google ranking"]
+          features: ["Full analysis of competitor websites", "Extract keywords they use", "Monitor competitors' backlink building", "Periodic reports to improve ranking"],
+          benefits: ["Uncover successful competitor strategies", "Find new keyword opportunities", "Build a strong backlink strategy", "Continuously improve your Google ranking"]
         },
         { 
           icon: Replace, title: "Multi-Campaign Manager", slug: "multi-campaign-manager",
            path: "#/app/tool/multi-campaign-manager",
           desc: "Manage dozens of campaigns and track real-time performance across platforms.",
-          features: ["Unified dashboard for all campaigns", "Real-time performance tracking (Facebook, Google...)", "Compare performance of different campaigns", "Automated recommendations to improve ROI"],
-          benefits: ["Comprehensive view of all campaign performance", "Make fast, data-driven decisions", "Optimize ad budget allocation", "Increase ad campaign effectiveness"]
+          features: ["Unified dashboard for campaign management", "Real-time performance tracking (Facebook, Google...)", "Compare performance of different campaigns", "Automated recommendations to improve ROI"],
+          benefits: ["Comprehensive view of all campaign performance", "Make quick, data-driven decisions", "Optimize ad budget allocation", "Increase ad campaign effectiveness"]
         },
         { 
           icon: Stars, title: "Viral AI Publisher", slug: "viral-ai-publisher",
            path: "#/app/tool/viral-ai-publisher",
-          desc: "Detects trends and suggests viral content with automatic visual enhancements.",
-          features: ["Monitor trending topics and themes", "Suggest viral content ideas", "Automatic visual enhancement for images and videos", "Optimize hashtags for maximum reach"],
-          benefits: ["Leverage trends to increase reach", "Create content that audiences love to share", "Rapidly increase brand awareness", "Achieve significant organic growth"]
+          desc: "Detects trends and suggests shareable content with automatic visual enhancements.",
+          features: ["Monitor trends and hot topics", "Suggest viral content ideas", "Automatic visual enhancement for images and videos", "Optimize hashtags for maximum reach"],
+          benefits: ["Leverage trends to increase reach", "Create content that audiences share widely", "Quickly increase brand awareness", "Achieve significant organic growth"]
         },
         { 
           icon: Link, title: "Smart Links System", slug: "smart-links-system",
            path: "#/app/tool/smart-links-system",
-          desc: "Custom short links for campaigns with click tracking, sources, and geo-redirects.",
+          desc: "Custom short links for campaigns with click tracking, source analysis, and geo-redirects.",
           features: ["Create branded short links", "Track click counts and sources (geo, device type)", "Redirect links based on geographic location", "Custom links for each campaign"],
           benefits: ["Accurately measure campaign performance", "Improve user experience with clean links", "Better understand audience behavior", "Increase trust in shared links"]
         },
         { 
           icon: BarChart3, title: "Analytics Hub", slug: "analytics-hub",
            path: "#/app/tool/analytics-hub",
-          desc: "Full traffic analysis, paid and organic campaign tracking, and ROI monitoring.",
-          features: ["Analyze traffic sources (organic, paid, direct)", "Track performance of paid and organic campaigns", "Monitor return on investment (ROI)", "Keyword performance reports"],
-          benefits: ["Holistic understanding of site and marketing performance", "Identify the most effective channels", "Optimize ad spend", "Make informed strategic decisions"]
+          desc: "Full traffic analysis, tracking of paid and organic campaigns, and ROI monitoring.",
+          features: ["Analyze traffic sources (organic, paid, direct)", "Track performance of organic and paid campaigns", "Monitor return on investment (ROI)", "Keyword performance reports"],
+          benefits: ["Comprehensive understanding of site and marketing performance", "Identify the most effective channels", "Optimize advertising spend", "Make informed strategic decisions"]
         },
         { 
           icon: Reply, title: "Auto-Engagement System", slug: "auto-engagement-system",
            path: "#/app/tool/auto-engagement-system",
           desc: "Automated replies to customer comments based on specific keywords.",
           features: ["Set up automated replies to comments and messages", "Define keywords to trigger responses", "Customize replies to match brand tone", "Integrate with upselling campaigns"],
-          benefits: ["Save time managing comments", "Ensure no customer inquiry is missed", "Increase engagement and participation on posts", "Convert engaged users into leads"]
+          benefits: ["Save time managing comments", "Ensure no customer inquiry is ignored", "Increase engagement and participation on posts", "Convert engaged users into potential customers"]
         },
         { 
           icon: Flag, title: "Online Reputation Management (ORM)", slug: "online-reputation-management",
            path: "#/app/tool/online-reputation-management",
           desc: "Monitors brand mentions across the web and provides sentiment analysis reports.",
-          features: ["Monitor brand mentions across the web", "Sentiment analysis (positive, negative, neutral)", "Instant alerts for new mentions", "Periodic reports on digital reputation status"],
-          benefits: ["Protect brand reputation", "Quickly address negative reviews", "Understand public perception of your brand", "Improve digital public relations"]
+          features: ["Monitor brand mentions across the web", "Sentiment analysis (positive, negative, neutral)", "Instant alerts for brand mentions", "Periodic reports on digital reputation status"],
+          benefits: ["Protect your brand's reputation", "Quickly address negative reviews", "Understand public perception of your brand", "Improve digital public relations"]
         },
         { 
           icon: MailPlus, title: "Email Marketing Integration", slug: "email-marketing-integration",
            path: "#/app/tool/email-marketing-integration",
-          desc: "AI-powered email campaigns with ready-made templates and performance tracking.",
-          features: ["AI-powered email campaign creation", "Library of ready-to-use email templates", "Track open and click-through rates", "Audience segmentation"],
+          desc: "AI-powered email campaigns with ready-to-use templates and performance tracking.",
+          features: ["Create email campaigns with AI", "Library of ready-to-use email templates", "Track open and click-through rates", "Segment email lists"],
           benefits: ["Direct and effective communication with customers", "Increase sales through targeted offers", "Build customer loyalty", "Accurately measure email campaign effectiveness"]
         }
     ],
@@ -608,80 +678,80 @@ export const translations = {
           icon: UserCheck, title: "Client Profile Pages", slug: "client-profile-pages",
            path: "#/app/tool/client-profile-pages",
           desc: "An automatically SEO-optimized profile page for each client.",
-          features: ["Automatic creation of a profile page", "SEO optimization for the page", "Include business info and social links", "Automatic Schema.org data structuring"],
-          benefits: ["Increase visibility in local search results", "Build brand credibility online", "Gain a powerful backlink", "Improve user search experience"]
+          features: ["Automatic creation of a profile page", "SEO optimization for the page", "Include business info and social links", "Automatic Schema.org structured data"],
+          benefits: ["Increase visibility in local search results", "Build brand credibility online", "Get a strong backlink", "Improve user search experience"]
         },
         { 
           icon: Settings2, title: "Meta Manager", slug: "meta-manager",
            path: "#/app/tool/meta-manager",
           desc: "Automatically generates meta titles and descriptions with Schema.org integration.",
           features: ["Automatic generation of meta titles and descriptions", "Schema.org integration for rich results", "Open Graph (OG) support for social sharing", "Bulk optimization for pages"],
-          benefits: ["Improve click-through rate (CTR) from Google", "Save time on manual page optimization", "Ensure professional appearance when links are shared", "Improve search engine understanding of site content"]
+          benefits: ["Improve click-through rate (CTR) in Google", "Save time on manual page optimization", "Ensure professional appearance when links are shared", "Improve search engines' understanding of site content"]
         },
         { 
           icon: Link2, title: "Smart URLs", slug: "smart-urls",
            path: "#/app/tool/smart-urls",
           desc: "Clean, SEO-friendly URLs that include the client and platform name.",
           features: ["Create clean, SEO-friendly URLs", "Automatically include client name and content title", "Consistent and clear URL structure", "Automatic optimization for non-Latin characters"],
-          benefits: ["Improve page ranking in search engines", "Better user experience with clear URLs", "Increase trust and credibility", "Easy to share and remember links"]
+          benefits: ["Improve page rankings in search engines", "Better user experience with clear URLs", "Increase trust and credibility", "Easy to share and remember links"]
         },
         { 
           icon: Megaphone, title: "Branded Publishing", slug: "branded-publishing",
            path: "#/app/tool/branded-publishing",
           desc: "All content displays 'Powered by Cairoeg Advertising' to increase credibility.",
-          features: ["Add 'Powered by Cairoeg' branding to content", "Link to the client's profile on the platform", "Customization options for branding", "Apply to articles and profiles"],
+          features: ["Add 'Powered by Cairoeg' branding to content", "Link to the client's profile on the platform", "Branding customization options", "Apply to articles and profiles"],
           benefits: ["Increase trust and credibility", "Leverage the platform's brand strength", "Gain an additional backlink", "Enhance the client's professional image"]
         },
         { 
           icon: Send, title: "Auto Google Indexing", slug: "auto-google-indexing",
            path: "#/app/tool/auto-google-indexing",
-          desc: "Every new post or page is automatically submitted to Google for rapid indexing.",
-          features: ["Automatic submission of new content to Google", "Utilizes Google Indexing API", "Automatic sitemap updates", "Reports on indexing status"],
-          benefits: ["Index new content in minutes, not days", "Beat competitors in publishing news and trending topics", "Ensure all site pages are indexed", "Quickly improve content visibility in search results"]
+          desc: "Every new post or page is automatically submitted to Google for fast indexing.",
+          features: ["Automatic submission of new content to Google", "Uses Google Indexing API", "Automatic sitemap updates", "Reports on indexing status"],
+          benefits: ["Index new content in minutes instead of days", "Outpace competitors in publishing news and trending topics", "Ensure all site pages are indexed", "Quickly improve content visibility in search results"]
         },
         { 
-          icon: FileJson, title: "SEO Reports & Optimizations", slug: "seo-reports-optimization",
+          icon: FileJson, title: "SEO Reports & Optimization", slug: "seo-reports-optimization",
            path: "#/app/tool/seo-reports-optimization",
           desc: "Personalized SEO audit for each client with keyword recommendations and rank tracking.",
-          features: ["Comprehensive website SEO audit", "Customized keyword recommendations", "Track keyword rankings in Google", "Periodic reports on progress"],
-          benefits: ["A clear roadmap for SEO improvement", "Target the right keywords", "Accurately measure SEO effort results", "Continuously improve search performance"]
+          features: ["Comprehensive SEO audit of the website", "Customized keyword recommendations", "Track keyword rankings in Google", "Periodic progress reports"],
+          benefits: ["A clear roadmap for SEO improvement", "Target the right keywords", "Accurately measure the results of SEO efforts", "Continuously improve search performance"]
         },
         { 
           icon: BarChart, title: "Advanced SEO Schemes", slug: "advanced-seo-schemes",
            path: "#/app/tool/advanced-seo-schemes",
-          desc: "Knowledge Graph support for rich results in Google and Google My Business integration.",
-          features: ["Support for Knowledge Graph schemas", "Integration with Google My Business (GMB)", "Build topic clusters", "Suggestions for voice search optimization"],
-          benefits: ["Achieve prominent visibility in search results (Rich Results)", "Significantly improve local SEO", "Build strong topical authority in your niche", "Prepare for the future of search"]
+          desc: "Supports Knowledge Graph for rich results in Google and integrates with Google My Business.",
+          features: ["Knowledge Graph schema support", "Integration with Google My Business (GMB)", "Build topic clusters", "Suggestions to optimize content for voice search"],
+          benefits: ["Get prominent visibility in search results (Rich Results)", "Significantly improve local SEO", "Build strong topical authority in your niche", "Prepare for the future of search"]
         }
     ],
     integratedSystems: [
         { 
           icon: Link, title: "Backlinks Builder", slug: "backlinks-builder",
            path: "#/app/tool/backlinks-builder",
-          desc: "Automatically build backlinks for clients through external partnerships to boost SEO.",
-          features: ["Automatic generation of high-quality backlinks", "Partnerships with trusted sites and blogs", "Performance reports for backlinks", "Natural and diverse link distribution"],
-          benefits: ["Significant improvement in Google ranking", "Increase Domain Authority", "Gain referral traffic from new sources", "Build a strong and sustainable SEO foundation"]
+          desc: "Automatically builds backlinks for clients through external partnerships to boost SEO.",
+          features: ["Automatic creation of high-quality backlinks", "Partnerships with trusted sites and blogs", "Performance reports for backlinks", "Natural and diverse link distribution"],
+          benefits: ["Significant improvement in Google ranking", "Increase Domain Authority", "Get referral traffic from new sources", "Build a strong and sustainable SEO foundation"]
         },
         { 
           icon: Users, title: "Client Community", slug: "client-community",
            path: "#/app/tool/client-community",
           desc: "An internal social hub for clients to connect, with forums and discussion groups.",
-          features: ["Internal forum for discussion and knowledge sharing", "Industry-specific groups", "Private messaging system between members", "Exclusive workshops and events"],
-          benefits: ["Build a strong professional network", "Get peer-to-peer support and help", "Learn from others' experiences", "Feel part of a professional community"]
+          features: ["Internal forum for discussions and knowledge sharing", "Specialized groups by industry", "Private messaging system between members", "Exclusive workshops and events"],
+          benefits: ["Build a strong professional network", "Get support and help from peers", "Learn from others' experiences", "Feel a sense of belonging to a professional community"]
         },
         { 
           icon: Store, title: "Client E-commerce Store", slug: "client-ecommerce-store",
            path: "#/app/tool/client-ecommerce-store",
           desc: "Each client can create their own store to showcase their products and services.",
-          features: ["Easily create an e-commerce store", "Add unlimited products and services", "Manage inventory and pricing", "Custom store link (cairoeg.online/store/client-name)"],
+          features: ["Easily create an e-commerce store", "Add unlimited products and services", "Manage inventory and prices", "Unique store link (cairoeg.online/store/client-name)"],
           benefits: ["Start selling online quickly and easily", "Showcase products professionally", "Manage sales operations from one place", "Leverage the platform's infrastructure"]
         },
         { 
           icon: Package, title: "Cairoeg Marketplace", slug: "cairoeg-marketplace",
            path: "#/app/tool/cairoeg-marketplace",
           desc: "A central marketplace featuring all client stores, categorized by industry and product.",
-          features: ["Automatic product listing in the central marketplace", "Categorization by industry and product type", "Advanced search and filtering system", "Support for multiple payment methods"],
-          benefits: ["Reach a broader customer base", "Increase sales opportunities", "Benefit from the platform's marketing efforts", "Enhance the client's brand"]
+          features: ["Automatic product listing in the central marketplace", "Categorization of products by industry and type", "Advanced search and filtering system", "Support for multiple payment methods"],
+          benefits: ["Reach a wider customer base", "Increase sales opportunities", "Benefit from the platform's marketing efforts", "Enhance the client's brand"]
         }
     ],
     featuresTitle: "Robust Infrastructure & Modern Tech",
